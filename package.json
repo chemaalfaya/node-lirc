@@ -9,9 +9,20 @@
   "keywords": [
     "lirc"
   ],
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/chemaalfaya/node-lirc.git"
+  },
   "author": "Chema Alfaya Montero <chemaalfaya@gmail.com> (http://www.chemaalfaya.com)",
   "license": "ISC",
   "dependencies": {
     "async": "^2.1.2"
   }
 }
+
+
+
+
+
+
+  
