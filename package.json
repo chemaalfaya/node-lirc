@@ -1,28 +1,27 @@
 {
   "name": "node-lirc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "LIRC bridge for node",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "lirc"
+    "lirc", "lircd", "irrecord", "irsend", "ir", "infrared", "smart", "remote", "control", "raspberry pi", "home", "automation", "bridge", "api"
   ],
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/chemaalfaya/node-lirc.git"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chemaalfaya/node-lirc.git"
   },
-  "author": "Chema Alfaya Montero <chemaalfaya@gmail.com> (http://www.chemaalfaya.com)",
+  "author": {
+    "name": "Chema Alfaya Montero",
+    "email": "chemaalfaya@gmail.com",
+    "url": "http://www.chemaalfaya.com"
+  },
   "license": "ISC",
   "dependencies": {
-    "async": "^2.1.2"
+    "async": "^2.1.2",
+    "deasync": "^0.1.8",
+    "nconf": "^0.8.4"
   }
 }
-
-
-
-
-
-
-  

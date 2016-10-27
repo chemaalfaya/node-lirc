@@ -1,1 +1,1 @@
-module.exports = require('./lib/nodeLIRC');
+module.exports = require('./lib/node-lirc');
