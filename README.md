@@ -11,61 +11,82 @@ It is intended to be used in a scenario where you want to control infrared devic
 
 It provides certain command line executables like [irrecord](http://www.lirc.org/html/irrecord.html), that allow you to record your remotes signal codes, and [irsend](http://www.lirc.org/html/irsend.html), that uses those codes to send them back to your devices.
 
+## Configuration
+
+To configure the module add this structure to a config.json file at the root of your app.
+
+	/// Default configuration
+	{
+	    "node-lirc": {
+    	    "commands": {
+        		"lircd": "lircd",
+        		"irrecord": "irrecord",
+        		"irsend": "irsend",
+        		"unbuffer": "unbuffer"
+	        },
+    	    "lirc_driver": "default",
+        	"lirc_conf": "/etc/lirc/lircd.conf",
+	        "lirc_pid": "/var/run/lirc/lircd.pid",
+    	    "device": "/dev/lirc0",
+        	"tmp_dir": "tmp/",
+        	"remote": "MY_REMOTE"
+    	}
+	}
+
 ## Installation
 	$ npm install node-lirc
 
 ## How to use it
 
-Require the module
+Require the module and initialize it
 
 	var nodeLIRC = require('node-lirc');
 	
+	nodeLIRC.init();
+	
 ### Recording remote signal codes
 
-	// Configure your device
-	nodeLIRC.irrecord.setDevice('/dev/lirc0'); //Default '/dev/lirc'
-	nodeLIRC.irrecord.setConfigFile('Samsung_AA59-00581A.conf'); //Default '_lircd.conf'
-	
 	// Setup the event listeners
-	nodeLIRC.irrecord.on('stdout', function(event) {
+	nodeLIRC.on('stdout', function(event) {
 		console.log(event.instructions);
 		
 		...
 		
 		if (event.eventName == 'EVENT_BUTTON_NAME')
-			event.writeLine('VOLUME_UP');
+			nodeLIRC.writeLine('VOLUME_UP');
 			
 		...
 	});
 	
-	nodeLIRC.irrecord.on('stderr', function(data) {
+	nodeLIRC.on('stderr', function(data) {
 		console.log('irrecord output stderr: ' + data.toString());
 	});
 	
-	nodeLIRC.irrecord.on('exit', function(code) {
+	nodeLIRC.on('exit', function(code) {
 		console.log('irrecord exited with code ' + (code?code.toString():'(unknown)'));
 	});
 	
-	// Start irrecord process
-	nodeLIRC.irrecord.start();
+	nodeLIRC.on('remote-config-ready', function(remoteConfig) {
+            console.log(remoteConfig.name + " remote is READY.");
+            console.log("Configuration file data:\n" + remoteConfig.configuration);
+            // Insert or Update the new remote configuration into lirc config file
+            nodeLIRC.upsertRemote(remoteConfig.name, remoteConfig.configuration, (error) => {
+            	if (!error)
+                	nodeLIRC.reloadData();
+            });
+        });
 	
-	...
+	// Start the remote control recording process
+	nodeLIRC.record('<MY_NEW_REMOTE_NAME>');
 	
-	// Stop irrecord process
-	nodeLIRC.irrecord.stop();
 
 ### Sending remote signal codes
-
-    // Initialize
-    nodeLIRC.init();
 
     // Get all the remotes and commands known by LIRC
     console.log(nodeLIRC.remotes);
 
     // Tell our Samsung TV to turn the volume up
-    nodeLIRC.irsend.send_once("Samsung_AA59-00581A", "VOLUME_UP", function() {
-      console.log("Samsung_AA59-00581A -> VOLUME_UP command sent!");
-    });
+    nodeLIRC.send("Samsung_AA59-00581A", "VOLUME_UP");
 
 ## Irrecord events reference
 
