@@ -1,13 +1,14 @@
 {
   "name": "node-lirc",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "LIRC bridge for node",
   "main": "index.js",
   "scripts": {
+    "preinstall" : ". ./scripts/install.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "lirc", "lircd", "irrecord", "irsend", "ir", "infrared", "smart", "remote", "control", "raspberry pi", "home", "automation", "bridge", "api"
+    "lirc", "lircd", "irrecord", "irsend", "ir", "infrared", "smart", "remote", "raspberry pi"
   ],
   "repository": {
     "type": "git",
